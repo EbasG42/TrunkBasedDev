@@ -1,4 +1,4 @@
 print ("hola mundo")
 
-def test_dummy():
-    assert 1 + 1 == 2
+def suma(a, b):
+    return a + b
