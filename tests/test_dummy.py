@@ -1,3 +1,4 @@
-
+import archivo_prueba
 def test_suma():
-    assert 1+1 == 2
+    resultado= archivo_prueba.suma(1+1)
+    assert resultado == 2
