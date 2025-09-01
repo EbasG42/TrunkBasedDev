@@ -1,0 +1,8 @@
+Escritura secuencial:
+1024+0 records in
+1024+0 records out
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 0.576691 s, 1.9 GB/s
+Lectura secuencial:
+1024+0 records in
+1024+0 records out
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 0.224327 s, 4.8 GB/s

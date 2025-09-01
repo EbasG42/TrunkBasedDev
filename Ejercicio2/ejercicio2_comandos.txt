@@ -1,0 +1,28 @@
+docker network create red_a
+docker network create red_b
+docker network create red_c
+
+docker run -dit --name alpha --network red_a alpine sh
+docker run -dit --name beta --network red_b alpine sh
+docker run -dit --name gamma --network red_c alpine sh
+docker run -dit --name delta --network red_a alpine sh
+
+docker network connect red_b delta
+docker network connect red_c delta
+
+# Pings
+docker exec alpha ping -c 2 delta
+docker exec alpha ping -c 2 beta
+docker exec alpha ping -c 2 gamma
+
+docker exec beta ping -c 2 delta
+docker exec beta ping -c 2 alpha
+docker exec beta ping -c 2 gamma
+
+docker exec gamma ping -c 2 delta
+docker exec gamma ping -c 2 alpha
+docker exec gamma ping -c 2 beta
+
+docker exec delta ping -c 2 alpha
+docker exec delta ping -c 2 beta
+docker exec delta ping -c 2 gamma
