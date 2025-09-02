@@ -26,8 +26,51 @@ Para Tmpfs, en la teoria, se monta un filesystem en la memoria RAM, sin embargo,
 <br>
 docker run --rm --tmpfs /bench:rw,size=1G $IMAGE_NAME | tee result_tmpfs.txt
 <br>
+
+<br>
 <img width="595" height="213" alt="image" src="https://github.com/user-attachments/assets/96c622fc-641f-4c2c-ae6b-dc3d3b4a1e7c" />
 <br>
+Ejercicio 2
+creacion de redes con el siguiente comando
+<br>
+docker network create red_a
+docker network create red_b
+docker network create red_c
+<br>
+Una vez creadas las redes, procedemos a crear los contenedores con el siguiente comando
+<br>
+docker run -dit --name alpha --network red_a alpine-ping
+docker run -dit --name beta  --network red_b alpine-ping
+docker run -dit --name gamma --network red_c alpine-ping
+docker run -dit --name delta --network red_a alpine-ping
+<br>
+Crear contenedor delta que sera nuestro hub de comunicacion
+<br>
+docker network connect red_b delta
+docker network connect red_c delta
+<br>
+Y por ultimo procedemos a las pruebas de conectividad entre las redes
+<br>
+# Desde alpha
+docker exec -it alpha ping -c 2 delta
+docker exec -it alpha ping -c 2 beta    # debe FALLAR
+docker exec -it alpha ping -c 2 gamma   # debe FALLAR
+
+# Desde beta
+docker exec -it beta ping -c 2 delta
+docker exec -it beta ping -c 2 alpha    # debe FALLAR
+docker exec -it beta ping -c 2 gamma    # debe FALLAR
+
+# Desde gamma
+docker exec -it gamma ping -c 2 delta
+docker exec -it gamma ping -c 2 alpha   # debe FALLAR
+docker exec -it gamma ping -c 2 beta    # debe FALLAR
+
+# Desde delta
+docker exec -it delta ping -c 2 alpha
+docker exec -it delta ping -c 2 beta
+docker exec -it delta ping -c 2 gamma
+
 
 
 
